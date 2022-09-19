@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html>
 <head>
-    <title>TheQuest - Gaming Magazine Template</title>
+    <title>quest-blog</title>
     <meta charset="UTF-8">
     <meta name="description" content="TheQuest Gaming Magazine Template">
     <meta name="keywords" content="gaming, html">
@@ -14,12 +14,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/magnific-popup.css"/>
-    <link rel="stylesheet" href="css/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="css/animate.css"/>
-    <link rel="stylesheet" href="css/slicknav.min.css"/>
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
 
     <!-- Main Stylesheets -->
     <link rel="stylesheet" href="css/style.css"/>
@@ -29,6 +31,15 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.slicknav.js') }}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
 </head>
 <body>
@@ -55,35 +66,6 @@
     </div>
 </header>
 <!-- Header section end -->
-
-<!-- Hero section -->
-<section class="hero-section">
-    <div class="hero-slider owl-carousel">
-        <div class="hero-item set-bg" data-setbg="img/slider/1.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 offset-lg-1">
-                        <h2>Enter the Battle</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. </p>
-                        <a href="#" class="site-btn">Read More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="hero-item set-bg" data-setbg="img/slider/2.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 offset-lg-1">
-                        <h2>Enter the Battle</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. </p>
-                        <a href="#" class="site-btn">Read More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Hero section end -->
 
 <!-- Blog section -->
 <section class="blog-section spad">
@@ -530,15 +512,6 @@
     </div>
 </div>
 <!-- Footer section end -->
-
-<!--====== Javascripts & Jquery ======-->
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/circle-progress.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/main.js"></script>
 
 </body>
 </html>
