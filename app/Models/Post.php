@@ -24,9 +24,14 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function readers()
+    public function getReaders()
     {
-        return $this->belongsToMany(User::class, 'post_reader', 'post_id');
+        return $this->belongsToMany(User::class, 'post_reader', relatedPivotKey:  'reader_id');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class);
     }
 
 

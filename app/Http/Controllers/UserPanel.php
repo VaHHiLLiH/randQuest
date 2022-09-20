@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorizationRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,9 @@ class UserPanel extends Controller
 
     public function home()
     {
-        $user = User::find(1);
+        $post = Post::find(2);
 
-        dd($user->posts);
+        dd($post->getReaders);
         //return view('home');
     }
 
