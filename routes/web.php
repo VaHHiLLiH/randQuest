@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminPanel;
+use App\Http\Controllers\UserPanel;
+use App\Http\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +20,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function() {
+Route::get('home/', [UserPanel::class, 'home'])->middleware('auth')->name('home');
+
+Route::prefix('admin')->middleware('is.admin')->group(function() {
 
     Route::get('/', [AdminPanel::class, 'index']);
 
-    Route::post('/auth/', [AdminPanel::class, 'authorization'])->name('authorization');
-
 });
 
-Auth::routes();
+Route::get('login', [UserPanel::class, 'showAuthorization'])->name('login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('registration', [UserPanel::class, 'showRegistration'])->name('registration');
+
+Route::get('rememberPassword', [UserPanel::class, 'rememberPass'])->name('rememberPass');
+
+Route::post('login', [UserPanel::class, 'authorization'])->name('authorization');
+
+Route::post('registration', [UserPanel::class, 'registration'])->name('reg');
+
+Route::post('logout', [UserPanel::class], 'logout')->name('logout');

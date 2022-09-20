@@ -28,4 +28,13 @@ class AuthorizationRequest extends FormRequest
             'password'  => ['required'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+          'email.required'  =>   'Необходимо заполнить поле Email',
+          'email.email'     =>   'Несоответствующий Email',
+          'password.required'        =>   'Необходимо заполнить пароль',
+        ];
+    }
 }
