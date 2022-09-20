@@ -1,6 +1,10 @@
 import { createApp } from 'vue';
 
+import openingMenu from './components/logout';
+
 const app = createApp({});
 
-app.mount('#appasdfasdfasddfasdfasdfasdfasdf');
+app.component('openingMenu', openingMenu);
+
+app.mount('#myPeace');
 

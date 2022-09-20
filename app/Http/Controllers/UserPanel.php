@@ -23,19 +23,19 @@ class UserPanel extends Controller
 
     public function home()
     {
+        $user = User::find(1);
 
-        return view('home');
+        dd($user->posts);
+        //return view('home');
     }
 
-    public function authorization()
+    public function authorization(AuthorizationRequest $request)
     {
 
     }
 
     public function registration(RegistrationRequest $request)
     {
-
-        dd($request->all());
         User::create([
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
