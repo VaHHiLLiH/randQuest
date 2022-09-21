@@ -25,7 +25,7 @@ class RegistrationRequest extends FormRequest
     {
         return [
             'name'                  => ['required', 'alpha'],
-            'email'                 => ['required', 'email'],
+            'email'                 => ['required', 'email', 'unique:App\Models\User,email'],
             'password'              => ['required', 'confirmed'],
         ];
     }
@@ -37,6 +37,7 @@ class RegistrationRequest extends FormRequest
             'name.alpha'            =>  'Необходимо заполнить Имя',
             'email.email'           =>  'Несоответствующий Email',
             'email.required'        =>  'Несоответствующий Email',
+            'email.unique'          =>  'Такой адрес электронной почты уже существует',
             'password.required'     =>  'Необходимо заполнить пароль',
             'password.confirmed'    =>  'Пароли не совпадают',
         ];
