@@ -7,11 +7,11 @@ use App\Http\Requests\RegistrationRequest;
 use App\Mail\ConfirmationOfRegistration;
 use App\Models\Post;
 use App\Models\User;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Ramsey\Uuid\Type\Integer;
 
 class UserPanel extends Controller
 {
@@ -48,7 +48,10 @@ class UserPanel extends Controller
 
     public function registration(RegistrationRequest $request)
     {
-        Mail::to($request->get('email'))->send(new ConfirmationOfRegistration($request->get('email'), $request->get('name'), 228));
+        $faker = Factory::create();
+
+        $code = $faker->numerify('###-###');
+        Mail::to($request->get('email'))->send(new ConfirmationOfRegistration($request->get('email'), $request->get('name'), $code));
         dd($request->all());
         User::create([
             'name'      => $request->get('name'),
