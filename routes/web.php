@@ -18,7 +18,7 @@ use App\Http\Middleware;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('is.guest');
 
 Route::get('home/', [UserPanel::class, 'home'])->middleware('auth')->name('home');
 
@@ -28,17 +28,17 @@ Route::prefix('admin')->middleware('is.admin')->group(function() {
 
 });
 
-Route::get('login', [UserPanel::class, 'showAuthorization'])->name('login');
+Route::get('login', [UserPanel::class, 'showAuthorization'])->middleware('is.user')->name('login');
 
-Route::get('registration', [UserPanel::class, 'showRegistration'])->name('registration');
+Route::get('registration', [UserPanel::class, 'showRegistration'])->middleware('is.user')->name('registration');
 
-Route::get('rememberPassword', [UserPanel::class, 'rememberPass'])->name('rememberPass');
+Route::get('rememberPassword', [UserPanel::class, 'rememberPass'])->middleware('is.user')->name('rememberPass');
 
-Route::post('login', [UserPanel::class, 'authorization'])->name('authorization');
+Route::post('login', [UserPanel::class, 'authorization'])->middleware('is.user')->name('authorization');
 
-Route::post('registration', [UserPanel::class, 'registration'])->name('reg');
+Route::post('registration', [UserPanel::class, 'registration'])->middleware('is.user')->name('reg');
 
-Route::post('logout', [UserPanel::class, 'logout'])->name('logout');
+Route::get('logout', [UserPanel::class, 'logout'])->name('logout');
 
 Route::get('confirm', [UserPanel::class, 'regConfirm'])->name('confirmRegistration');
 

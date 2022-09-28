@@ -18,12 +18,26 @@ class IsUser
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = User::where('id', $request->user_id)->first();
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        if($user->role === 'user') {
-            return redirect()->route('home');
+            if ($user->role == 'guest' ) {
+                return $next($request);
+            } else {
+                return redirect()->route('home');
+            }
+        } else {
+            if (isset($request->user_id)) {
+                $user = User::where('id', $request->user_id)->first();
+
+                if ($user->role == 'guest') {
+                    return $next($request);
+                } else {
+                    return redirect()->route('home');
+                }
+            } else {
+                return $next($request);
+            }
         }
-
-        return $next($request);
     }
 }
