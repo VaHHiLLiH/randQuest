@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorizationRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Jobs\RegistrationForEmail;
 use App\Mail\ConfirmationOfRegistration;
 use App\Models\Post;
 use App\Models\User;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Input\Input;
 
 class UserPanel extends Controller
 {
@@ -48,27 +50,40 @@ class UserPanel extends Controller
 
     public function registration(RegistrationRequest $request)
     {
-        $faker = Factory::create();
 
-        $code = $faker->numerify('###-###');
-        Mail::to($request->get('email'))->send(new ConfirmationOfRegistration($request->get('email'), $request->get('name'), $code));
-        dd($request->all());
-        User::create([
-            'name'      => $request->get('name'),
-            'email'     => $request->get('email'),
-            'password'  => Hash::make($request->get('password')),
-            'role'      => 'user',
+        $token = Hash::make($request->get('email').$request->get('name'));
+
+        $user = User::create([
+            'name'                  => $request->get('name'),
+            'email'                 => $request->get('email'),
+            'password'              => Hash::make($request->get('password')),
+            'role'                  => 'guest',
+            'registration_token'    => $token,
         ]);
 
-        $user = [
-            'email'     => $request->get('email'),
-            'password'  => $request->get('password'),
-        ];
+        dispatch(new RegistrationForEmail($user, $token));
 
-        if (Auth::attempt($user, true)) {
-            $request->session()->regenerate();
+        //return redirect()->route('messageConfirm');
+    }
 
-            return redirect()->route('home');
+    public function regConfirm(Request $request)
+    {
+        $user = User::where('registration_token', $request->token)->first();
+
+        if (empty($user)){
+            return redirect()->route('registration');
+        } else {
+
+            $user = [
+                'email' => $user->get('email'),
+                'password' => $user->get('password'),
+            ];
+
+            if (Auth::attempt($user, true)) {
+                session()->regenerate();
+
+                return redirect()->route('home');
+            }
         }
     }
 }

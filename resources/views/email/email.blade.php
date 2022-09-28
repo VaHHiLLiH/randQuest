@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -13,9 +10,9 @@
                     <p>Вам необходимо ввести код из эл. письма на форме регистрации</p>
                     <p class="letter-code">{{ $code }}</p>
                     <p>Если вы не совершали попыток регистрации под этим электронным адресом - {{ $email }}, проигнорируйте данное письмо</p>
+                    <a href="{{ route('confirmRegistration', ['token' => $token]) }}">Подтвердить учетную запись</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
