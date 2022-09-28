@@ -19,14 +19,12 @@ final class ConfirmationOfRegistration extends Mailable
 
     private string $email;
     private string $name;
-    private int $code;
     private string $token;
 
-    public function __construct(string $email, string $name, int $code, string $token)
+    public function __construct(string $email, string $name, string $token)
     {
         $this->email = $email;
         $this->name = $name;
-        $this->code = $code;
         $this->token = $token;
     }
 
@@ -40,7 +38,6 @@ final class ConfirmationOfRegistration extends Mailable
         return $this->with([
                         'email'  => $this->email,
                         'name'   => $this->name,
-                        'code'   => $this->code,
                         'token'  => $this->token,
                     ])
                     ->view('email.email');

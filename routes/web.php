@@ -40,8 +40,8 @@ Route::post('registration', [UserPanel::class, 'registration'])->name('reg');
 
 Route::post('logout', [UserPanel::class, 'logout'])->name('logout');
 
-Route::get('confirm/{token}', [UserPanel::class, 'regConfirm'])->name('confirmRegistration');
+Route::get('confirm', [UserPanel::class, 'regConfirm'])->name('confirmRegistration');
 
-Route::get('message', function () {
-    return view('message');
+Route::get('message/{user_id}', function () {
+    return view('confirmMessage');
 })->middleware('is.user')->name('confirm');

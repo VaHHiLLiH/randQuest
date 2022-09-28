@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\Input;
 
 class UserPanel extends Controller
@@ -51,7 +52,7 @@ class UserPanel extends Controller
     public function registration(RegistrationRequest $request)
     {
 
-        $token = Hash::make($request->get('email').$request->get('name'));
+        $token = Str::random(32);
 
         $user = User::create([
             'name'                  => $request->get('name'),
@@ -63,7 +64,7 @@ class UserPanel extends Controller
 
         dispatch(new RegistrationForEmail($user, $token));
 
-        //return redirect()->route('messageConfirm');
+        return redirect()->route('confirm', $user->id);
     }
 
     public function regConfirm(Request $request)
@@ -73,17 +74,13 @@ class UserPanel extends Controller
         if (empty($user)){
             return redirect()->route('registration');
         } else {
+            $user->update(['role' => 'user']);
 
-            $user = [
-                'email' => $user->get('email'),
-                'password' => $user->get('password'),
-            ];
+            Auth::login($user);
 
-            if (Auth::attempt($user, true)) {
-                session()->regenerate();
+            $request->session()->regenerate();
 
-                return redirect()->route('home');
-            }
+            return redirect()->route('home');
         }
     }
 }

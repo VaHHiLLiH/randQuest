@@ -26,17 +26,12 @@ class RegistrationForEmail implements ShouldQueue
      * @var string
      */
     protected string $token;
-    /**
-     * @var int
-     */
-    protected int $code;
 
 
-    public function __construct(User $user, int $code, string $token)
+    public function __construct(User $user, string $token)
     {
         $this->user = $user;
         $this->token = $token;
-        $this->code = $code;
     }
 
     /**
@@ -46,6 +41,6 @@ class RegistrationForEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->user->email)->send(new ConfirmationOfRegistration($this->user->email, $this->user->name, $this->code, $this->token));
+        Mail::to($this->user->email)->send(new ConfirmationOfRegistration($this->user->email, $this->user->name, $this->token));
     }
 }

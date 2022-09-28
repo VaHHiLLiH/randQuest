@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,9 @@ class IsUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role === 'user') {
+        $user = User::where('id', $request->user_id)->first();
+
+        if($user->role === 'user') {
             return redirect()->route('home');
         }
 
