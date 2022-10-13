@@ -8,6 +8,7 @@ use App\Jobs\RegistrationForEmail;
 use App\Mail\ConfirmationOfRegistration;
 use App\Models\Post;
 use App\Models\User;
+use App\Services\ValidateToken;
 use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,8 +63,7 @@ class UserPanel extends Controller
 
     public function registration(RegistrationRequest $request)
     {
-
-        $token = Str::random(32);
+        $token = ValidateToken::generateToken();
 
         $user = User::create([
             'name'                  => $request->get('name'),
@@ -85,7 +85,7 @@ class UserPanel extends Controller
         if (empty($user)){
             return redirect()->route('registration');
         } else {
-            $user->update(['role' => 'user']);
+            $user->update(['role' => 'user', 'email_verified_at' => NOW(), '']);
 
             Auth::login($user);
 
@@ -93,5 +93,28 @@ class UserPanel extends Controller
 
             return redirect()->route('home');
         }
+    }
+
+    public function restorePassword()
+    {
+
+    }
+
+    public function TelegramBot(Request $request)
+    {
+        $thToken = '5761861939:AAEVa_BxqDr7rBUoYKWiS-m5oOmGXLXilGA';
+        $method = 'getMe';
+        $url = 'https://api.telegram.org/bot' . $thToken . '/' . $method;
+        var_dump($url);echo'<br/><br/>';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        $output = curl_exec ($ch);
+        var_dump($output);echo'<br/><br/>';
+        $info = curl_getinfo($ch);
+        var_dump($info);echo'<br/><br/>';
+        $http_result = $info ['http_code'];
+        var_dump($http_result);echo'<br/><br/>';
+        curl_close ($ch);
+
     }
 }

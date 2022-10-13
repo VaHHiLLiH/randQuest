@@ -16,23 +16,29 @@ use App\Http\Middleware;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('is.guest');
-
-Route::get('home/', [UserPanel::class, 'home'])->middleware('auth')->name('home');
-
 Route::prefix('admin')->middleware('is.admin')->group(function() {
 
     Route::get('/', [AdminPanel::class, 'index']);
 
 });
 
+Route::get('/', function () {
+    return view('welcome');
+})->middleware('is.guest');
+
+Route::get('home/', [UserPanel::class, 'home'])->middleware('auth')->name('home');
+
 Route::get('login', [UserPanel::class, 'showAuthorization'])->middleware('is.user')->name('login');
 
 Route::get('registration', [UserPanel::class, 'showRegistration'])->middleware('is.user')->name('registration');
 
-Route::get('rememberPassword', [UserPanel::class, 'rememberPass'])->middleware('is.user')->name('rememberPass');
+Route::get('rememberPassword', function () {
+    return view('rememberPass');
+})->middleware('is.user')->name('rememberPass');
+
+Route::post('rememberPassword', [UserPanel::class, 'restorePassword'])->middleware('is.user')->name('restorePassword');
+
+Route::post('recovery', [UserPanel::class, 'recoveryPass'])->name('recovery');
 
 Route::post('login', [UserPanel::class, 'authorization'])->middleware('is.user')->name('authorization');
 
