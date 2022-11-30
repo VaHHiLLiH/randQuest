@@ -38,6 +38,8 @@ Route::get('rememberPassword', function () {
 
 Route::post('rememberPassword', [UserPanel::class, 'restorePassword'])->middleware('is.user')->name('restorePassword');
 
+Route::get('reestablishPassword', [UserPanel::class, 'checkCode'])->name('checkCode');
+
 Route::post('recovery', [UserPanel::class, 'recoveryPass'])->name('recovery');
 
 Route::post('login', [UserPanel::class, 'authorization'])->middleware('is.user')->name('authorization');

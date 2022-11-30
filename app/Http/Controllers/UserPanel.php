@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthorizationRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Jobs\RegistrationForEmail;
+use App\Jobs\RememberPassword;
 use App\Mail\ConfirmationOfRegistration;
 use App\Models\Post;
 use App\Models\User;
@@ -95,9 +96,23 @@ class UserPanel extends Controller
         }
     }
 
-    public function restorePassword()
+    public function restorePassword(Request $request)
     {
+        //dd($request->all());
+        $user = User::where('email', $request->email)->first();
 
+        $token = random_int(100, 999) . ' ' . random_int(100, 999);
+
+        $user->update(['password_code' => $token]);
+
+        dispatch(new RememberPassword($user));
+
+        return redirect()->route('checkCode');
+    }
+
+    public function checkCode()
+    {
+        dd(1);
     }
 
     public function TelegramBot(Request $request)
@@ -115,6 +130,5 @@ class UserPanel extends Controller
         $http_result = $info ['http_code'];
         var_dump($http_result);echo'<br/><br/>';
         curl_close ($ch);
-
     }
 }
